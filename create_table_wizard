@@ -1,0 +1,9 @@
+aws dynamodb create-table \
+  --table-name 'Characters' \
+  --attribute-definitions \
+    'AttributeName=PK,AttributeType=S' \
+  --key-schema \
+    'AttributeName=PK,KeyType=HASH' \
+  --provisioned-throughput \
+     'ReadCapacityUnits=5,WriteCapacityUnits=5'
+
