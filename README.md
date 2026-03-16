@@ -4,6 +4,18 @@ Configuración del entorno de desarrollo para utilizar el SDK de AWS para Python
 
 ---
 
+## ▶️ Ejecutar el proyecto (main.py)
+
+1. Asegúrate de tener tu entorno virtual activado (ver sección "Configuración del Entorno Virtual").
+
+2. Ejecuta el script principal:
+
+```bash
+python main.py
+```
+
+> ⚠️ Si utilizas Windows y no tienes `python` en tu PATH, usa `python3` o la ruta completa al ejecutable de tu entorno virtual (por ejemplo, `.\.venv\Scripts\python.exe`).
+
 ## 🛠️ Configuración del Entorno Virtual
 
 Para garantizar un aislamiento adecuado de las dependencias, es fundamental configurar un entorno virtual antes de comenzar.
@@ -119,10 +131,65 @@ Puedes insertar múltiples registros a la vez utilizando un archivo JSON:
 aws dynamodb batch-write-item --request-items file://personajes.json
 ```
 
+#### 🎵 2.2. Agregar Canciones (Batch Write)
+
+Una vez creada la tabla de música, carga las canciones iniciales:
+
+```sh
+aws dynamodb batch-write-item --request-items file://songs.json
+```
+
 > **💡 Tip:** Asegúrate de que el formato del JSON coincida con la estructura requerida por DynamoDB (`PutRequest`).
+
+---
+
+### 🔍 3. Índices Secundarios Locales (LSI)
+
+Los LSI te permiten realizar consultas utilizando una clave de orden diferente a la de la tabla principal, pero compartiendo la misma clave de partición.
+
+#### 📁 3.1. Configuración de LSI (JSON)
+
+Ejemplo de configuración para un índice en una tabla de música:
+
+```json
+[
+  {
+    "IndexName": "AlbumTitleIndex",
+    "KeySchema": [
+      { "AttributeName": "Artist", "KeyType": "HASH" },
+      { "AttributeName": "AlbumTitle", "KeyType": "RANGE" }
+    ],
+    "Projection": {
+      "ProjectionType": "INCLUDE",
+      "NonKeyAttributes": ["Genre", "Year"]
+    }
+  }
+]
+```
+
+#### 🏗️ 3.2. Crear Tabla con LSI
+
+Para incluir el LSI al crear la tabla, usa el parámetro `--local-secondary-indexes`:
+
+```sh
+aws dynamodb create-table \
+    --table-name MusicCollection \
+    --attribute-definitions \
+        AttributeName=Artist,AttributeType=S \
+        AttributeName=SongTitle,AttributeType=S \
+        AttributeName=AlbumTitle,AttributeType=S \
+    --key-schema \
+        AttributeName=Artist,KeyType=HASH \
+        AttributeName=SongTitle,KeyType=RANGE \
+    --local-secondary-indexes file://lsi_config.json \
+    --provisioned-throughput \
+        ReadCapacityUnits=5,WriteCapacityUnits=5
+```
 
 ---
 
 ## 🐍 Uso con el SDK de Python (Boto3)
 
 _Esta sección se puede expandir próximamente con ejemplos de código Python._
+
+---

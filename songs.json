@@ -3,63 +3,247 @@
     {
       "PutRequest": {
         "Item": {
-          "Artist": {
-            "S": "Metallica"
-          },
-          "SongTitle": {
-            "S": "Master Of Puppets"
-          },
-          "AlbumTitle": {
-            "S": "Master Of Puppets"
-          },
-          "Genre": {
-            "S": "Metal"
-          },
-          "Year": {
-            "S": "1986"
-          }
+          "Artist": { "S": "Megadeth" },
+          "SongTitle": { "S": "Holy Wars... The Punishment Due" },
+          "AlbumTitle": { "S": "Rust in Peace" },
+          "Genre": { "S": "Trash Metal" },
+          "Year": { "S": "1990" }
         }
       }
     },
     {
       "PutRequest": {
         "Item": {
-          "Artist": {
-            "S": "Metallica"
-          },
-          "SongTitle": {
-            "S": "Baterry"
-          },
-          "AlbumTitle": {
-            "S": "Master Of Puppets"
-          },
-          "Genre": {
-            "S": "Metal"
-          },
-          "Year": {
-            "S": "1986"
-          }
+          "Artist": { "S": "Megadeth" },
+          "SongTitle": { "S": "Hangar 18" },
+          "AlbumTitle": { "S": "Rust in Peace" },
+          "Genre": { "S": "Trash Metal" },
+          "Year": { "S": "1990" }
         }
       }
     },
     {
       "PutRequest": {
         "Item": {
-          "Artist": {
-            "S": "Metallica"
-          },
-          "SongTitle": {
-            "S": "Whiskey in the jar"
-          },
-          "AlbumTitle": {
-            "S": "Garage inc"
-          },
-          "Genre": {
-            "S": "Metal"
-          },
-          "Year": {
-            "S": "1989"
-          }
+          "Artist": { "S": "Pantera" },
+          "SongTitle": { "S": "Walk" },
+          "AlbumTitle": { "S": "Vulgar Display of Power" },
+          "Genre": { "S": "Groove Metal" },
+          "Year": { "S": "1992" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Pantera" },
+          "SongTitle": { "S": "Cowboys from Hell" },
+          "AlbumTitle": { "S": "Cowboys from Hell" },
+          "Genre": { "S": "Groove Metal" },
+          "Year": { "S": "1990" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Slayer" },
+          "SongTitle": { "S": "Raining Blood" },
+          "AlbumTitle": { "S": "Reign in Blood" },
+          "Genre": { "S": "Thrash Metal" },
+          "Year": { "S": "1986" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Slayer" },
+          "SongTitle": { "S": "Angel of Death" },
+          "AlbumTitle": { "S": "Reign in Blood" },
+          "Genre": { "S": "Thrash Metal" },
+          "Year": { "S": "1986" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Iron Maiden" },
+          "SongTitle": { "S": "The Trooper" },
+          "AlbumTitle": { "S": "Piece of Mind" },
+          "Genre": { "S": "Heavy Metal" },
+          "Year": { "S": "1983" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Iron Maiden" },
+          "SongTitle": { "S": "Run to the Hills" },
+          "AlbumTitle": { "S": "The Number of the Beast" },
+          "Genre": { "S": "Heavy Metal" },
+          "Year": { "S": "1982" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Black Sabbath" },
+          "SongTitle": { "S": "Paranoid" },
+          "AlbumTitle": { "S": "Paranoid" },
+          "Genre": { "S": "Heavy Metal" },
+          "Year": { "S": "1970" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Black Sabbath" },
+          "SongTitle": { "S": "Iron Man" },
+          "AlbumTitle": { "S": "Paranoid" },
+          "Genre": { "S": "Heavy Metal" },
+          "Year": { "S": "1970" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Judas Priest" },
+          "SongTitle": { "S": "Painkiller" },
+          "AlbumTitle": { "S": "Painkiller" },
+          "Genre": { "S": "Heavy Metal" },
+          "Year": { "S": "1990" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Judas Priest" },
+          "SongTitle": { "S": "Breaking the Law" },
+          "AlbumTitle": { "S": "British Steel" },
+          "Genre": { "S": "Heavy Metal" },
+          "Year": { "S": "1980" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Anthrax" },
+          "SongTitle": { "S": "Madhouse" },
+          "AlbumTitle": { "S": "Spreading the Disease" },
+          "Genre": { "S": "Thrash Metal" },
+          "Year": { "S": "1985" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Anthrax" },
+          "SongTitle": { "S": "Caught in a Mosh" },
+          "AlbumTitle": { "S": "Among the Living" },
+          "Genre": { "S": "Thrash Metal" },
+          "Year": { "S": "1987" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Sepultura" },
+          "SongTitle": { "S": "Roots Bloody Roots" },
+          "AlbumTitle": { "S": "Roots" },
+          "Genre": { "S": "Groove Metal" },
+          "Year": { "S": "1996" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Sepultura" },
+          "SongTitle": { "S": "Refuse/Resist" },
+          "AlbumTitle": { "S": "Chaos A.D." },
+          "Genre": { "S": "Groove Metal" },
+          "Year": { "S": "1993" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Dio" },
+          "SongTitle": { "S": "Holy Diver" },
+          "AlbumTitle": { "S": "Holy Diver" },
+          "Genre": { "S": "Heavy Metal" },
+          "Year": { "S": "1983" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Dio" },
+          "SongTitle": { "S": "Rainbow in the Dark" },
+          "AlbumTitle": { "S": "Holy Diver" },
+          "Genre": { "S": "Heavy Metal" },
+          "Year": { "S": "1983" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Motorhead" },
+          "SongTitle": { "S": "Ace of Spades" },
+          "AlbumTitle": { "S": "Ace of Spades" },
+          "Genre": { "S": "Heavy Metal" },
+          "Year": { "S": "1980" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Motorhead" },
+          "SongTitle": { "S": "Overkill" },
+          "AlbumTitle": { "S": "Overkill" },
+          "Genre": { "S": "Heavy Metal" },
+          "Year": { "S": "1979" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Iron Maiden" },
+          "SongTitle": { "S": "Wasted Years" },
+          "AlbumTitle": { "S": "Somewhere in Time" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Iron Maiden" },
+          "SongTitle": { "S": "Fear of the Dark" },
+          "AlbumTitle": { "S": "Fear of the Dark" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Artist": { "S": "Iron Maiden" },
+          "SongTitle": { "S": "Aces High" },
+          "AlbumTitle": { "S": "Powerslave" }
         }
       }
     }
