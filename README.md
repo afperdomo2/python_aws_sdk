@@ -1,195 +1,132 @@
 # 🐍 Python AWS SDK
 
-Configuración del entorno de desarrollo para utilizar el SDK de AWS para Python (Boto3).
+Ejemplos y utilidades para trabajar con **AWS DynamoDB** y **AWS Lambda / API Gateway** usando **Python (Boto3)** y **AWS CLI**.
 
 ---
 
-## ▶️ Ejecutar el proyecto (main.py)
+## 📁 ¿Qué hay en este proyecto?
 
-1. Asegúrate de tener tu entorno virtual activado (ver sección "Configuración del Entorno Virtual").
+| Archivo / carpeta                  | Descripción rápida                                                                               |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `ejercicios/1-dynamodb/main.py`    | Ejemplo principal que lista tablas, consulta un ítem, inserta un ítem y lo recupera de DynamoDB. |
+| `create_table_wizard`              | Script AWS CLI para crear la tabla `Characters` (usada por `main.py`).                           |
+| `create_table_music.sh`            | Script AWS CLI para crear la tabla `Music` con un LSI (`AlbumTitleIndex`).                       |
+| `personajes.json`                  | Datos de ejemplo para carga masiva en DynamoDB.                                                  |
+| `songs.json`                       | Datos de ejemplo para la tabla de música.                                                        |
+| `lsi_config.json`                  | Configuración JSON para un índice secundario local (LSI).                                        |
+| `api_gateway_lambda_template.json` | CloudFormation para crear una Lambda + API Gateway + IAM roles.                                  |
+| `ejercicios/`                      | Ejercicios adicionales (DynamoDB, Lambda).                                                       |
 
-2. Ejecuta el script principal:
+---
 
-```bash
-python main.py
-```
+## ✅ Requisitos previos
 
-> ⚠️ Si utilizas Windows y no tienes `python` en tu PATH, usa `python3` o la ruta completa al ejecutable de tu entorno virtual (por ejemplo, `.\.venv\Scripts\python.exe`).
+1. **Python 3.8+** (o equivalente).
+2. **AWS CLI** configurado (credenciales + región):
+   - `aws configure` o variables de entorno `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`.
+3. **Dependencias Python**: `boto3`.
 
-## 🛠️ Configuración del Entorno Virtual
+---
 
-Para garantizar un aislamiento adecuado de las dependencias, es fundamental configurar un entorno virtual antes de comenzar.
+## 🛠️ Pasos iniciales (entorno virtual)
 
-### 📦 1. Crear el Entorno Virtual
-
-Ejecuta el siguiente comando en la terminal desde la raíz de tu proyecto:
+### 1) Crear el entorno virtual
 
 ```bash
 python -m venv .venv
 ```
 
----
+### 2) Activar el entorno virtual
 
-### 🚀 2. Activar el Entorno Virtual
+#### 🪟 Windows (PowerShell)
 
-El comando de activación varía según el sistema operativo y el tipo de terminal que utilices:
-
-#### 🪟 Windows
-
-- **PowerShell:**
-  ```powershell
-  .\.venv\Scripts\Activate.ps1
-  ```
-- **Símbolo del sistema (cmd):**
-  ```cmd
-  .\.venv\Scripts\activate.bat
-  ```
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
 
 #### 🍎 macOS / 🐧 Linux
 
-- **Bash / Zsh:**
-  ```bash
-  source .venv/bin/activate
-  ```
+```bash
+source .venv/bin/activate
+```
 
----
-
-### 🛑 3. Desactivar el Entorno
-
-Cuando hayas terminado de trabajar, puedes salir del entorno virtual con:
+### 3) Instalar dependencias
 
 ```bash
-deactivate
+pip install boto3
 ```
 
 ---
 
-## 🔵 Comandos de AWS CLI - DynamoDB
+## ▶️ Ejecutar el ejemplo principal (`ejercicios/1-dynamodb/main.py`)
 
-Guía rápida para gestionar tablas y datos utilizando la interfaz de línea de comandos de AWS.
+Este script hace lo siguiente:
 
-### 🏗️ 1. Gestión de Tablas
+1. Lista todas las tablas de DynamoDB en la cuenta/región.
+2. Consulta un ítem en la tabla `Characters`.
+3. Inserta/actualiza un ítem en `Characters`.
+4. Recupera el ítem insertado.
 
-#### 🆕 1.1. Crear una Tabla
-
-Para crear una tabla nueva, utiliza el comando `create-table`. Asegúrate de definir correctamente las claves y tipos de datos.
-
-```sh
-aws dynamodb create-table \
-  --table-name 'Characters' \
-  --attribute-definitions \
-    'AttributeName=PK,AttributeType=S' \
-  --key-schema \
-    'AttributeName=PK,KeyType=HASH' \
-  --provisioned-throughput \
-     'ReadCapacityUnits=5,WriteCapacityUnits=5'
+```bash
+python ejercicios/1-dynamodb/main.py
 ```
 
-##### 📖 Desglose de Parámetros
+> ⚠️ Si utilizas Windows y no tienes `python` en tu PATH, usa `python3` o la ruta completa al ejecutable de tu entorno virtual (por ejemplo, `.\.venv\Scripts\python.exe`).
 
-| Propiedad (Prop)           | Nombre Técnico     | Descripción                                       | Notas de uso                                  |
-| :------------------------- | :----------------- | :------------------------------------------------ | :-------------------------------------------- |
-| `--table-name`             | Nombre             | Identificador único de la tabla.                  | Único por cuenta y región.                    |
-| `--key-schema`             | Esquema de Clave   | Define los atributos de la clave primaria.        | `HASH` (Partition) o `RANGE` (Sort).          |
-| `AttributeName`            | Atributo           | Nombre de la columna que es llave.                | Ejemplo: `PK`, `SK` o `studentId`.            |
-| `KeyType=HASH`             | Partition Key      | Define cómo se distribuyen los datos físicamente. | Es obligatorio para cualquier tabla.          |
-| `--attribute-definitions`  | Tipos de Atributos | Declaración del formato de los atributos clave.   | Solo se definen los campos de índices/llaves. |
-| `AttributeType=S`          | Tipo de Dato       | `S`: String (Texto).                              | Otros: `N` (Número), `B` (Binario).           |
-| `--provisioned-throughput` | Rendimiento        | Capacidad reservada de lectura/escritura.         | Determina costo y velocidad.                  |
-| `ReadCapacityUnits`        | RCU                | Unidades de lectura.                              | 1 RCU = 1 lectura de 4 KB/seg.                |
-| `WriteCapacityUnits`       | WCU                | Unidades de escritura.                            | 1 WCU = 1 escritura de 1 KB/seg.              |
+---
 
-#### 🧙 1.2. Usar el Asistente Interactiva
+## 🔵 AWS CLI: crear y gestionar tablas
 
-Si prefieres una guía paso a paso, AWS CLI ofrece un asistente:
+### Crear la tabla `Characters`
 
-```sh
-aws dynamodb wizard new-table
+```bash
+bash create_table_wizard
 ```
 
-#### 📋 1.3. Listar y Eliminar
+### Crear la tabla `Music` (incluye LSI)
 
-Comandos rápidos para administración:
+```bash
+bash create_table_music.sh
+```
 
-```sh
-# Listar todas las tablas en la región actual
+### Listar / eliminar tablas
+
+```bash
 aws dynamodb list-tables
-
-# Borrar una tabla específica
 aws dynamodb delete-table --table-name Characters
 ```
 
 ---
 
-### 📥 2. Operaciones con Datos
+## 📥 Carga masiva de datos (batch-write)
 
-#### 📑 2.1. Carga Masiva desde JSON
-
-Puedes insertar múltiples registros a la vez utilizando un archivo JSON:
-
-```sh
+```bash
 aws dynamodb batch-write-item --request-items file://personajes.json
-```
-
-#### 🎵 2.2. Agregar Canciones (Batch Write)
-
-Una vez creada la tabla de música, carga las canciones iniciales:
-
-```sh
 aws dynamodb batch-write-item --request-items file://songs.json
 ```
 
-> **💡 Tip:** Asegúrate de que el formato del JSON coincida con la estructura requerida por DynamoDB (`PutRequest`).
+> ✅ Asegúrate de que la tabla exista antes de ejecutar estas cargas.
 
 ---
 
-### 🔍 3. Índices Secundarios Locales (LSI)
+## ☁️ Plantilla CloudFormation (Lambda + API Gateway)
 
-Los LSI te permiten realizar consultas utilizando una clave de orden diferente a la de la tabla principal, pero compartiendo la misma clave de partición.
+El archivo `api_gateway_lambda_template.json` crea:
 
-#### 📁 3.1. Configuración de LSI (JSON)
-
-Ejemplo de configuración para un índice en una tabla de música:
-
-```json
-[
-  {
-    "IndexName": "AlbumTitleIndex",
-    "KeySchema": [
-      { "AttributeName": "Artist", "KeyType": "HASH" },
-      { "AttributeName": "AlbumTitle", "KeyType": "RANGE" }
-    ],
-    "Projection": {
-      "ProjectionType": "INCLUDE",
-      "NonKeyAttributes": ["Genre", "Year"]
-    }
-  }
-]
-```
-
-#### 🏗️ 3.2. Crear Tabla con LSI
-
-Para incluir el LSI al crear la tabla, usa el parámetro `--local-secondary-indexes`:
-
-```sh
-aws dynamodb create-table \
-    --table-name MusicCollection \
-    --attribute-definitions \
-        AttributeName=Artist,AttributeType=S \
-        AttributeName=SongTitle,AttributeType=S \
-        AttributeName=AlbumTitle,AttributeType=S \
-    --key-schema \
-        AttributeName=Artist,KeyType=HASH \
-        AttributeName=SongTitle,KeyType=RANGE \
-    --local-secondary-indexes file://lsi_config.json \
-    --provisioned-throughput \
-        ReadCapacityUnits=5,WriteCapacityUnits=5
-```
+- Una función **Lambda** con código inline que devuelve "Hola Mundo".
+- Un rol **IAM** con permisos para ejecutar Lambda y acceso a DynamoDB.
+- Un **API Gateway** con un endpoint `POST /insertar` que invoca la Lambda.
+- Un rol para que **API Gateway** pueda enviar logs a CloudWatch.
 
 ---
 
-## 🐍 Uso con el SDK de Python (Boto3)
+## 🧪 Ejercicios adicionales
 
-_Esta sección se puede expandir próximamente con ejemplos de código Python._
+- `ejercicios/1-dynamodb/main.py`: otro ejemplo de uso de DynamoDB.
+- `ejercicios/2-crear-lambda/`: recursos para crear una función Lambda.
+
+---
+
+¡Listo! Ahora la documentación refleja lo que hay en el proyecto y cómo usarlo. Si quieres, puedo agregar un pequeño apartado con el comportamiento exacto de `main.py` y cómo ajustar el nombre de la tabla o región.
 
 ---
